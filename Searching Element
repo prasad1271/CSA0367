@@ -1,0 +1,92 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <errno.h> // Include errno for error handling
+
+// Define the structure of Node
+struct Node {
+    int data;
+    struct Node* next;
+};
+
+// Function to Insert Node in the Beginning
+void insertAtBeginning(struct Node** head, int data) {
+    // create a new Node using dynamic memory allocation
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+    if (!newNode) {
+        perror("Memory allocation failed"); // Handle memory allocation error
+        exit(EXIT_FAILURE);
+    }
+    // store the data in the new Node
+    newNode->data = data;
+    // the next pointer of new Node will be on current head
+    newNode->next = *head;
+    // the current head will be the new Node
+    *head = newNode;
+}
+
+// Function to Insert the Node at the end
+void insertAtEnd(struct Node** head, int data) {
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+    if (!newNode) {
+        perror("Memory allocation failed"); // Handle memory allocation error
+        exit(EXIT_FAILURE);
+    }
+    // store the data in the new Node
+    newNode->data = data;
+    // Since the node will be last, its next will be NULL
+    newNode->next = NULL;
+    // in case this is the first node, make the newNode as
+    // the head of the LinkedList
+    if (*head == NULL) {
+        *head = newNode;
+        return;
+    }
+    // Create a pointer to iterate till the last node
+    struct Node* current = *head;
+    while (current->next != NULL) {
+        current = current->next;
+    }
+    // make the next of the tail point to the new Node
+    current->next = newNode;
+}
+
+// Function to Print the Linked List
+void printList(struct Node* head) {
+    struct Node* current = head;
+    while (current != NULL) {
+        printf("%d  ", current->data);
+        current = current->next;
+    }
+    int ele, flag = 0;
+    printf("\nEnter the element to search: ");
+    scanf("%d", &ele);
+    current = head; // Reset current to the beginning of the list
+    while (current != NULL) {
+        if (current->data == ele) {
+            flag++;
+        }
+        current = current->next;
+    }
+    if (flag > 0) {
+        printf("%d appeared in the list %d time(s).\n", ele, flag);
+    } else {
+        printf("Searching element not found.\n");
+    }
+}
+
+int main() {
+    // Create the Linked List
+    struct Node* head = NULL;
+    // pass head by reference so that it can be modified
+    insertAtBeginning(&head, 10);
+    insertAtEnd(&head, 20);
+    insertAtEnd(&head, 30);
+    insertAtEnd(&head, 20);
+    insertAtEnd(&head, 50);
+    insertAtEnd(&head, 60);
+
+    // Print the Linked List
+    printf("Linked List: ");
+    printList(head);
+    return 0;
+}
