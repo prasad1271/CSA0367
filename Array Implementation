@@ -1,0 +1,157 @@
+#include<stdio.h>
+void linear(int array[])
+{
+    int n,s;
+    printf("Enter the Array size and Searching element :");
+    scanf("%d %d",&n,&s);
+    for (int i=0;i<n;i++)
+    {
+        if (array[i]==s)
+        {
+            printf("Searching element Was found At index %d\n",i);
+            break;
+        }
+    }
+}
+void binary(int array[])
+{
+    int n,s;
+    printf("Enter the Array size and Searching Element :");
+    scanf("%d %d ",&n,&s);
+    int f,l,mid;
+    f=0;
+    l=n-1;
+    while (f<=l)
+    {
+        mid = (f+l)/2;
+        if (array[mid]==s)
+        {
+            printf("Searching Element Found At index %d..\n",mid);
+            break;
+        }
+        else if (array[mid]<s)
+        {
+            f = mid + 1;
+        }
+        else
+        {
+            l = mid -1;
+        }
+
+    }
+    if (f>l)
+    {
+        printf("Not found..\n");
+    }
+    
+}
+void insert(int A[]) {
+    int n, po, in, val;
+    printf("Enter the size of the array: ");
+    scanf("%d", &n);
+
+    printf("Enter %d elements:\n", n);
+    for (int i = 0; i < n; i++) {
+        scanf("%d", &A[i]);
+    }
+
+    printf("Enter the position to insert an element (1-%d): ", n);
+    scanf("%d", &po);
+    in = po - 1;
+
+    if (in >= 0 && in < n) {
+        printf("Enter the value of the element: ");
+        scanf("%d", &val);
+
+        for (int i = n; i > in; i--) {
+            A[i] = A[i - 1];
+        }
+        A[in] = val;
+
+        printf("Array after inserting the element:\n");
+        for (int i = 0; i <= n; i++) {
+            printf("%d ", A[i]);
+        }
+    } else {
+        printf("Invalid position. Please choose a valid position.\n");
+    }
+}
+
+void delete(int array[]) {
+    int po, n, in;
+    printf("Enter the array size: ");
+    scanf("%d", &n);
+
+    printf("Enter %d elements:\n", n);
+    for (int i = 0; i < n; i++) {
+        scanf("%d", &array[i]);
+    }
+
+    printf("Enter the position of the element to delete (1-%d): ", n);
+    scanf("%d", &po);
+    in = po - 1;
+
+    if (in >= 0 && in < n) {
+        for (int i = in; i < n; i++) {
+            array[i] = array[i + 1];
+        }
+
+        printf("Array after deleting the element:\n");
+        for (int i = 0; i < n - 1; i++) {
+            printf("%d ", array[i]);
+        }
+    } else {
+        printf("Invalid position. Please choose a valid position.\n");
+    }
+}
+
+int main() {
+    int array[100];
+    int ch;
+    printf("1. Insert an element\n2. Delete an element from the array\n3.Linear Searching \n4.Binary Search\n");
+    printf("Choose the case to perform: ");
+    scanf("%d", &ch);
+
+    switch (ch) {
+        case 1:
+            insert(array);
+            break;
+        case 2:
+            delete(array);
+            break;
+            case 3:
+            linear(array);
+            break;
+            case 4:
+            binary(array);
+        default:
+            printf("Not Found..\n");
+            break;
+
+    }
+
+    return 0;
+}
+#include <stdio.h>
+#include <stdlib.h>
+
+struct Node {
+    int data;
+    struct Node* next;
+};
+
+void push(struct Node** head_ref, int new_data) {
+    struct Node* new_node = (struct Node*)malloc(sizeof(struct Node));
+    new_node->data = new_data;
+    new_node->next = (*head_ref);
+    (*head_ref) = new_node;
+}
+
+// Usage example:
+int main() {
+    struct Node* head = NULL;
+    push(&head, 5);
+    push(&head, 10);
+    // Add more elements as needed
+    return 0;
+}
