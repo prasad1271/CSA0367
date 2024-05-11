@@ -1,7 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <errno.h> // Include errno for error handling
-
 // Define the structure of Node
 struct Node {
     int data;
