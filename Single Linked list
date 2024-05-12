@@ -1,75 +1,140 @@
-
 #include <stdio.h>
-#include <stdlib.h>
- 
-// Define the structure of Node
-struct Node {
+#include <stdlib.h> // Include stdlib for malloc
+
+// Define the node structure
+struct node {
     int data;
-    struct Node* next;
-};
- 
-// Function to Insert Node in the Beginning
-void insertAtBeginning(struct Node** head, int data)
-{
-    // create a new Node using dynamic memory allocation
-    struct Node* newNode
-        = (struct Node*)malloc(sizeof(struct Node));
-    // store the data in the new Node
-    newNode->data = data;
-    // the next pointer of new Node will be on current head
-    newNode->next = *head;
-    // the current head will the new Node
-    *head = newNode;
-}
- 
-// Function to Insert the Node in the end
-void insertAtEnd(struct Node** head, int data)
-{
-    struct Node* newNode
-        = (struct Node*)malloc(sizeof(struct Node));
-    // store the data in the new Node
-    newNode->data = data;
-    // Since the node will be last its next will be NULL
-    newNode->next = NULL;
-    // in case this is the first node make the newNode as
-    // the head of the LinkedList
-    if (*head == NULL) {
-        *head = newNode;
-        return;
+    struct node *next;
+} *start = NULL; // Initialize start to NULL
+
+// Function to create nodes
+void create() {
+    struct node *current, *new_node;
+    int n; // Variable to store the size of the list
+    int i; // Loop counter
+
+    printf("Enter the size of the list: ");
+    scanf("%d", &n);
+    printf("Enter the elements to Create :");
+    for(i = 0; i < n; i++) { // Loop to create 'n' nodes
+        new_node = (struct node *)malloc(sizeof(struct node)); // Allocate memory for new node
+        if(new_node == NULL) { // Check if memory allocation was successful
+            printf("Memory allocation failed\n");
+            return; // Exit the function if memory allocation fails
+        }
+        scanf("%d", &new_node->data);
+        new_node->next = NULL;
+
+        if (start == NULL) {
+            start = new_node;
+            current = new_node;
+        } else {
+            current->next = new_node;
+            current = new_node;
+        }
     }
-    // Create a pointer to iterate till the last node
-    struct Node* current = *head;
-    while (current->next != NULL) {
-        current = current->next;
-    }
-    // make the next of the tail to the new Node
-    current->next = newNode;
 }
- 
-// Function to Print the Linked List
-void printList(struct Node* head)
+void insert_at_begin()
 {
-    struct Node* current = head;
+    struct node*current,*new_node;
+    new_node=(struct node*)malloc(sizeof(struct node));
+    printf("Enter the element to insert :");
+    scanf("%d",&new_node->data);
+    new_node->next=NULL;
+    if (start==NULL)
+    {
+        start=new_node;
+    }
+    else
+    {
+        new_node->next=start;
+        start=new_node;
+    }
+}
+void insert_at_position()
+{
+    struct node*current,*new_node;
+    int pos;
+    new_node=(struct node*)malloc(sizeof(struct node));
+    printf("Enter the element to insert :");
+    scanf("%d",&new_node->data);
+    printf("Enter the Position to Insert :");
+    scanf("%d",&pos);
+    if (start==NULL)
+    {
+        start=new_node;
+    }
+    else
+    {
+        current = start;
+        for (int i=1;i<pos-1;i++)
+        {
+            current=current->next;
+        }
+        new_node->next=current->next;
+        current->next=new_node;
+    }
+}
+void insert_at_end()
+{
+    struct node*current,*new_node;
+    new_node=(struct node*)malloc(sizeof(struct node));
+    printf("Enter the element to insert :");
+    scanf("%d",&new_node->data);
+    new_node->next=NULL;
+    if (start==NULL)
+    {
+        start=new_node;
+    }
+    else
+    {
+        current=start;
+        while(current->next!=NULL)
+        {
+            current=current->next;
+
+        }
+        current->next=new_node;
+    }
+
+}
+// Function to display the list
+void display() {
+    struct node *current = start; // Start from the first node
+    printf("The Elements in List :\n");
     while (current != NULL) {
-        printf("%d  ", current->data);
-        current = current->next;
+        printf("%d ", current->data); // Print the data of the current node
+        current = current->next; // Move to the next node
     }
+    printf("\n"); // Print a newline at the end
 }
- 
-int main()
-{
-    // Create the Linked List
-    struct Node* head = NULL;
-    // pass head by reference so that it can be modified
-    insertAtBeginning(&head, 10);
-    insertAtEnd(&head, 20);
-    insertAtEnd(&head, 30);
-    insertAtEnd(&head, 40);
-    insertAtEnd(&head, 50);
+int main() {
+    create();
+    int ch;
     
-    // Print the Linked List
-    printf("Linked List: ");
-    printList(head);
- 
+    printf("Enter the Number to operate The operation :");
+    scanf("%d",&ch);
+    switch (ch)
+    {
+        case 1:
+        insert_at_begin();
+        break;
+        case 2:
+        insert_at_position();
+        break;
+        case 3:
+        insert_at_end();
+        break;
+        case 4:
+        searching();
+        break;
+        case 5:
+        display();
+        break;
+        default :
+        printf("Not found.\n");
+        break;
+    }
     return 0;
 }
+
