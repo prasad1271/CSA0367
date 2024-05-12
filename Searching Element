@@ -1,4 +1,3 @@
-
 #include <stdio.h>
 #include <stdlib.h> // Include stdlib for malloc
 
@@ -109,7 +108,23 @@ void display() {
     }
     printf("\n"); // Print a newline at the end
 }
-
+void searching() {
+    int ele, flag = 0;
+    struct node *current = start; // Initialize current to start
+    printf("Enter the element to Search :");
+    scanf("%d", &ele);
+    while(current != NULL) {
+        if (current->data == ele) {
+            flag++;
+        }
+        current = current->next; // Move to the next node
+    }
+    if (flag > 0) {
+        printf("The searching element found %d time(s) in list\n", flag);
+    } else {
+        printf("The searching element not found in list\n");
+    }
+}
 int main() {
     create();
     int ch;
@@ -126,12 +141,15 @@ int main() {
         case 3:
         insert_at_end();
         break;
+        case 4:
+        searching();
+        break;
+        case 5:
+        display();
+        break;
         default :
         printf("Not found.\n");
         break;
     }
-    display(); // Call the display function to print the list
-    
     return 0;
 }
-
