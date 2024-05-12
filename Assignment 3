@@ -1,27 +1,24 @@
-
 #include <stdio.h>
 #include <stdlib.h> // Include stdlib for malloc
 #include<limits.h>
-// Define the node structure
+
 struct node {
     int data;
     struct node *next;
-} *start = NULL; // Initialize start to NULL
-
-// Function to create nodes
+} *start = NULL;
 void create() {
     struct node *current, *new_node;
-    int n; // Variable to store the size of the list
-    int i; // Loop counter
+    int n; 
+    int i; 
 
     printf("Enter the size of the list: ");
     scanf("%d", &n);
     printf("Enter the elements to Create :");
-    for(i = 0; i < n; i++) { // Loop to create 'n' nodes
-        new_node = (struct node *)malloc(sizeof(struct node)); // Allocate memory for new node
-        if(new_node == NULL) { // Check if memory allocation was successful
+    for(i = 0; i < n; i++) { 
+        new_node = (struct node *)malloc(sizeof(struct node)); 
+        if(new_node == NULL) {
             printf("Memory allocation failed\n");
-            return; // Exit the function if memory allocation fails
+            return; 
         }
         scanf("%d", &new_node->data);
         new_node->next = NULL;
@@ -126,6 +123,31 @@ void delete_at_middle()
         }
     }
 }
+void delete_at_position() {
+    struct node *current = start, *previous = NULL;
+    int pos, i = 1;
+    printf("Enter the position of the element to delete: ");
+    scanf("%d", &pos);
+
+    if (pos == 1) {
+        start = current->next;
+        free(current);
+        return;
+    }
+
+    while (current != NULL && i < pos) {
+        previous = current;
+        current = current->next;
+        i++;
+    }
+    if (current == NULL) {
+        printf("Position does not exist.\n");
+    } else {
+        previous->next = current->next;
+        free(current);
+    }
+}
+
 void delete_at_end()
 {
     struct node*current,*del;
@@ -157,26 +179,25 @@ void difference_min_max() {
     int result = max - min;
     printf("%d is the difference between the minimum and maximum element in this list.\n", result);
 }
-// Function to display the list
 void display() {
-    struct node *current = start; // Start from the first node
+    struct node *current = start; 
     printf("The Elements in List :\n");
     while (current != NULL) {
-        printf("%d ", current->data); // Print the data of the current node
-        current = current->next; // Move to the next node
+        printf("%d ", current->data); 
+        current = current->next; 
     }
-    printf("\n"); // Print a newline at the end
+    printf("\n"); 
 }
 void searching() {
     int ele, flag = 0;
-    struct node *current = start; // Initialize current to start
+    struct node *current = start;
     printf("Enter the element to Search :");
     scanf("%d", &ele);
     while(current != NULL) {
         if (current->data == ele) {
             flag++;
         }
-        current = current->next; // Move to the next node
+        current = current->next; 
     }
     if (flag > 0) {
         printf("The searching element found %d time(s) in list\n", flag);
@@ -221,6 +242,10 @@ int main() {
         break;
         case 8:
         difference_min_max();
+        break;
+        case 9:
+        delete_at_position();
+        display();
         break;
         default :
         printf("Not found.\n");
