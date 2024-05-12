@@ -1,0 +1,224 @@
+#include <stdio.h>
+#include <stdlib.h> // Include stdlib for malloc
+#include<limits.h>
+// Define the node structure
+struct node {
+    int data;
+    struct node *next;
+} *start = NULL; // Initialize start to NULL
+
+// Function to create nodes
+void create() {
+    struct node *current, *new_node;
+    int n; // Variable to store the size of the list
+    int i; // Loop counter
+
+    printf("Enter the size of the list: ");
+    scanf("%d", &n);
+    printf("Enter the elements to Create :");
+    for(i = 0; i < n; i++) { // Loop to create 'n' nodes
+        new_node = (struct node *)malloc(sizeof(struct node)); // Allocate memory for new node
+        if(new_node == NULL) { // Check if memory allocation was successful
+            printf("Memory allocation failed\n");
+            return; // Exit the function if memory allocation fails
+        }
+        scanf("%d", &new_node->data);
+        new_node->next = NULL;
+
+        if (start == NULL) {
+            start = new_node;
+            current = new_node;
+        } else {
+            current->next = new_node;
+            current = new_node;
+        }
+    }
+}
+void insert_at_begin()
+{
+    struct node*current,*new_node;
+    new_node=(struct node*)malloc(sizeof(struct node));
+    printf("Enter the element to insert :");
+    scanf("%d",&new_node->data);
+    new_node->next=NULL;
+    if (start==NULL)
+    {
+        start=new_node;
+    }
+    else
+    {
+        new_node->next=start;
+        start=new_node;
+    }
+}
+void insert_at_position()
+{
+    struct node*current,*new_node;
+    int pos;
+    new_node=(struct node*)malloc(sizeof(struct node));
+    printf("Enter the element to insert :");
+    scanf("%d",&new_node->data);
+    printf("Enter the Position to Insert :");
+    scanf("%d",&pos);
+    if (start==NULL)
+    {
+        start=new_node;
+    }
+    else
+    {
+        current = start;
+        for (int i=1;i<pos-1;i++)
+        {
+            current=current->next;
+        }
+        new_node->next=current->next;
+        current->next=new_node;
+    }
+}
+void insert_at_end()
+{
+    struct node*current,*new_node;
+    new_node=(struct node*)malloc(sizeof(struct node));
+    printf("Enter the element to insert :");
+    scanf("%d",&new_node->data);
+    new_node->next=NULL;
+    if (start==NULL)
+    {
+        start=new_node;
+    }
+    else
+    {
+        current=start;
+        while(current->next!=NULL)
+        {
+            current=current->next;
+
+        }
+        current->next=new_node;
+    }
+
+}
+void delete_at_begin()
+{
+    struct node*del=start;
+    start=start->next;
+    free(del);
+}
+void delete_at_middle()
+{
+    struct node *current,*del;
+    int ele;
+    printf("Enter the element to delete :");
+    scanf("%d",&ele);
+    current=start;
+    while (current->next!=NULL)
+    {
+        if (current->next->data==ele)
+        {
+            del=current->next;
+            current->next=del->next;
+            free(del);
+        }
+        else
+        {
+            current=current->next;
+        }
+    }
+}
+void delete_at_end()
+{
+    struct node*current,*del;
+    current=start;
+    while (current->next->next!=NULL)
+    {
+        current=current->next;
+    }
+    del=current->next;
+    current->next=NULL;
+    free(del);
+}
+void difference_min_max() {
+    if (start == NULL) {
+        printf("List is empty.\n");
+        return;
+    }
+    struct node *current = start;
+    int min = INT_MAX, max = INT_MIN;
+    while (current != NULL) {
+        if (current->data > max) {
+            max = current->data;
+        }
+        if (current->data < min) {
+            min = current->data;
+        }
+        current = current->next;
+    }
+    int result = max - min;
+    printf("%d is the difference between the minimum and maximum element in this list.\n", result);
+}
+// Function to display the list
+void display() {
+    struct node *current = start; // Start from the first node
+    printf("The Elements in List :\n");
+    while (current != NULL) {
+        printf("%d ", current->data); // Print the data of the current node
+        current = current->next; // Move to the next node
+    }
+    printf("\n"); // Print a newline at the end
+}
+void searching() {
+    int ele, flag = 0;
+    struct node *current = start; // Initialize current to start
+    printf("Enter the element to Search :");
+    scanf("%d", &ele);
+    while(current != NULL) {
+        if (current->data == ele) {
+            flag++;
+        }
+        current = current->next; // Move to the next node
+    }
+    if (flag > 0) {
+        printf("The searching element found %d time(s) in list\n", flag);
+    } else {
+        printf("The searching element not found in list\n");
+    }
+}
+int main() {
+    create();
+    int ch;
+    printf("1.Insert Element At Begin\n2.Insert Element At Middle\n3.Insert At End\n4.Searching An Element In List\n5.Delete At Begin\n6.Delete At Middle\n7.Delete At End\n8.Difference Between Minimum And Maximum in list\n");
+    printf("Enter the Number to operate The operation :");
+    scanf("%d",&ch);
+    switch (ch)
+    {
+        case 1:
+        insert_at_begin();
+        break;
+        case 2:
+        insert_at_position();
+        break;
+        case 3:
+        insert_at_end();
+        break;
+        case 4:
+        searching();
+        break;
+        case 5:
+        delete_at_begin();
+        break;
+        case 6:
+        delete_at_middle();
+        break;
+        case 7:
+        delete_at_end();
+        break;
+        case 8:
+        difference_min_max();
+        break;
+        default :
+        printf("Not found.\n");
+        break;
+    }
+    // display();
+    return 0;
+}
