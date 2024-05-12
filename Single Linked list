@@ -126,10 +126,7 @@ int main() {
         insert_at_end();
         break;
         case 4:
-        searching();
-        break;
-        case 5:
-        display();
+       display();
         break;
         default :
         printf("Not found.\n");
