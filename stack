@@ -1,0 +1,68 @@
+#include<stdio.h>
+
+void stack() {
+    int n, top;
+    printf("Enter the Size of Stack: ");
+    scanf("%d", &n);
+    int stack[n];
+    top = -1;
+
+    while(1) { // Loop to perform stack operations
+        int ch;
+        printf("Enter choice (1 for push, 2 for pop, 3 for peek, 4 for display, 0 to exit): ");
+        scanf("%d", &ch);
+
+        if(ch == 0) {
+            break; // Exit condition
+        }
+
+        switch(ch) {
+            case 1: // Push operation
+                if (top == n - 1) {
+                    printf("Stack is overflow.\n");
+                } else {
+                    int data;
+                    printf("Enter the element to insert into stack: ");
+                    scanf("%d", &data);
+                    top++;
+                    stack[top] = data;
+                    printf("Element Inserted.\n");
+                }
+                break;
+            case 2: // Pop operation
+                if (top == -1) {
+                    printf("Stack is empty.\n");
+                } else {
+                    printf("%d Element Deleted.\n", stack[top]);
+                    top--;
+                }
+                break;
+            case 3: // Peek operation
+                if (top == -1) {
+                    printf("Stack is empty.\n");
+                } else {
+                    printf("%d is the top element in stack.\n", stack[top]);
+                }
+                break;
+            case 4: // Display operation
+                if (top == -1) {
+                    printf("Stack is empty\n");
+                } else {
+                    printf("Elements in stack: ");
+                    for (int i = top; i >= 0; i--) {
+                        printf("%d ", stack[i]);
+                    }
+                    printf("\n");
+                }
+                break;
+            default:
+                printf("Invalid choice.\n");
+                break;
+        }
+    }
+}
+
+int main() {
+    stack();
+    return 0;
+}
