@@ -1,0 +1,65 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int main() {
+    int n;
+    printf("Enter the size of Queue: ");
+    scanf("%d", &n);
+    int queue[n];
+    int ch, front = -1, rear = -1;
+
+    while (1) {
+        printf("0. Exit\n1. Enqueue Operation\n2. Dequeue Operation\n3. Display\n");
+        printf("Choose the case to perform: ");
+        scanf("%d", &ch);
+
+        switch (ch) {
+            case 0:
+                exit(0);
+                break;
+            case 1: // Enqueue operation
+                if (rear == n - 1) {
+                    printf("Queue is full.\n");
+                } else {
+                    int data;
+                    printf("Enter the element to insert: ");
+                    scanf("%d", &data);
+                    if (rear == -1) {
+                        front = 0; // Initialize front when inserting the first element
+                    }
+                    rear++;
+                    queue[rear] = data;
+                }
+                break;
+            case 2: // Dequeue operation
+                if (front == -1) {
+                    printf("Queue is empty.\n");
+                } else {
+                    printf("%d is deleted from the queue.\n", queue[front]);
+                    if (front == rear) {
+                        front = -1;
+                        rear = -1;
+                    } else {
+                        front++;
+                    }
+                }
+                break;
+            case 3: // Display operation
+                if (front == -1) {
+                    printf("Queue is empty.\n");
+                } else {
+                    printf("Elements in the queue: ");
+                    for (int i = front; i <= rear; i++) {
+                        printf("%d ", queue[i]);
+                    }
+                    printf("\n");
+                }
+                break;
+            default:
+                printf("Invalid choice.\n");
+                break;
+        }
+    }
+
+    return 0;
+}
