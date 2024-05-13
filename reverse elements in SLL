@@ -1,0 +1,63 @@
+#include <stdio.h>
+#include <stdlib.h> // Include stdlib for malloc
+
+struct node {
+    int data;
+    struct node *next;
+} *start = NULL;
+void create() {
+    struct node *current, *new_node;
+    int n; 
+    int i; 
+
+    printf("Enter the size of the list: ");
+    scanf("%d", &n);
+    printf("Enter the elements to Create :");
+    for(i = 0; i < n; i++) { 
+        new_node = (struct node *)malloc(sizeof(struct node)); 
+        if(new_node == NULL) {
+            printf("Memory allocation failed\n");
+            return; 
+        }
+        scanf("%d", &new_node->data);
+        new_node->next = NULL;
+
+        if (start == NULL) {
+            start = new_node;
+            current = new_node;
+        } else {
+            current->next = new_node;
+            current = new_node;
+        }
+    }
+}
+struct node* reverse_elements(struct node* start) {
+    struct node *current, *prev, *next;
+    prev = NULL;
+    current = start;
+    while (current != NULL) {
+        next = current->next;
+        current->next = prev;
+        prev = current;
+        current = next;
+    }
+    start = prev;
+    return start;
+}
+
+void display() {
+    struct node *current = start; 
+    printf("The Elements in List :\n");
+    while (current != NULL) {
+        printf("%d ", current->data); 
+        current = current->next; 
+    }
+    printf("\n"); 
+}
+int main()
+{
+  create();
+  start = reverse_elements(start);
+  display();
+  return 0;
+  }
