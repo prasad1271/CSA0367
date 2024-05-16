@@ -1,3 +1,4 @@
+//Array Implementation
 #include <stdio.h>
 #include <stdlib.h> // For exit()
 
@@ -64,5 +65,91 @@ void stack() {
 
 int main() {
     stack();
+    return 0;
+}
+//Linked list Implementation
+#include <stdio.h>
+#include <stdlib.h>
+#include <limits.h>
+
+struct node {
+    int data;
+    struct node* next;
+} *top = NULL, *start = NULL;
+
+int main() {
+    int ch;
+
+    while (1) {
+        printf("0. Exit\n1. Push\n2. Pop\n3. Peek\n4. Display:\n");
+        scanf("%d", &ch);
+
+        switch (ch) {
+            case 0:
+                exit(0);
+                break;
+            case 1: {
+                struct node* new_node = (struct node*)malloc(sizeof(struct node));
+                if (new_node == NULL) {
+                    printf("Memory allocation failed. Exiting.\n");
+                    exit(1);
+                }
+                printf("Enter the data to push into Stack: ");
+                scanf("%d", &new_node->data);
+                new_node->next = NULL;
+
+                if (top == NULL) {
+                    start = new_node;
+                    top = new_node;
+                } else {
+                    top->next = new_node;
+                    top = new_node;
+                }
+                break;
+            }
+            case 2: {
+                if (top == NULL) {
+                    printf("Stack is empty. Cannot pop.\n");
+                    break;
+                }
+                if (top == start) {
+                    free(top);
+                    top = NULL;
+                    start = NULL;
+                } else {
+                    struct node* current = start;
+                    while (current->next != top) {
+                        current = current->next;
+                    }
+                    printf("%d is poped successfully\n",top->data);
+                    free(top);
+                    top = current;
+                    top->next = NULL;
+                }
+                break;
+            }
+            case 3: {
+                if (top == NULL) {
+                    printf("Stack is empty. Cannot peek.\n");
+                } else {
+                    printf("Top element of the stack: %d\n", top->data);
+                }
+                break;
+            }
+            case 4: {
+                struct node* display_current = start;
+                while (display_current != NULL) {
+                    printf("%d ", display_current->data);
+                    display_current = display_current->next;
+                }
+                printf("\n");
+                break;
+            }
+            default:
+                printf("NOT FOUND..\n");
+                break;
+        }
+    }
+
     return 0;
 }
