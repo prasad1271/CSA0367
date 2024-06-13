@@ -308,3 +308,25 @@ int main()
     // You can add more cleanup logic here
     return 0;
 }
+//string in alphabetical order
+#include <stdio.h>
+#include <string.h>
+
+int main() {
+    char string[] = "hello world";
+    int length = strlen(string);
+
+    // Bubble sort to arrange characters in alphabetical order
+    for (int i = 0; i < length; i++) {
+        for (int j = i + 1; j < length; j++) {
+            if (string[i] > string[j]) {
+                char temp = string[i];
+                string[i] = string[j];
+                string[j] = temp;
+            }
+        }
+    }
+
+    printf("%s is the alphabetical order\n", string);
+    return 0;
+}
