@@ -67,89 +67,83 @@ int main() {
     stack();
     return 0;
 }
-//Linked list Implementation
-#include <stdio.h>
-#include <stdlib.h>
-#include <limits.h>
+//stack in liked list
+#include<stdio.h>
+#include<stdlib.h>
 
-struct node {
+
+struct node
+{
+    struct node*pre;
     int data;
-    struct node* next;
-} *top = NULL, *start = NULL;
+    struct node*next;
+}*top=NULL;
 
-int main() {
+void push()
+{
+    struct node*new_node=(struct node*)malloc(sizeof(struct node));
+    printf("Enter the Element to push :");
+    scanf("%d",&new_node->data);
+    new_node->next=new_node->pre=NULL;
+    if (top==NULL)
+    {
+        top=new_node;
+    }
+    else
+    {
+        new_node->pre=top;
+        top->next=new_node;
+        top=new_node;
+    }
+}
+
+void pop()
+{
+    if (top==NULL)
+    {
+        printf("\nStack is Empty\n");
+    }
+    else
+    {
+    struct node*del=top;
+    printf("%d is pop out",top->data);
+    top=top->pre;
+    free(del);
+    }
+}
+void display()
+{
+    struct node *temp=top;
+    while (temp!=NULL)
+    {
+        printf("%d ",temp->data);
+        temp=temp->pre;
+    }
+}
+int main()
+{
     int ch;
-
-    while (1) {
-        printf("0. Exit\n1. Push\n2. Pop\n3. Peek\n4. Display:\n");
-        scanf("%d", &ch);
-
-        switch (ch) {
+    while(1)
+    {
+        printf("\nchoice the Operation :\n0.Exit\n1.PUSH\n2.POP\n3.DISPLAY\n");
+        scanf("%d",&ch);
+        switch(ch)
+        {
             case 0:
-                exit(0);
-                break;
-            case 1: {
-                struct node* new_node = (struct node*)malloc(sizeof(struct node));
-                if (new_node == NULL) {
-                    printf("Memory allocation failed. Exiting.\n");
-                    exit(1);
-                }
-                printf("Enter the data to push into Stack: ");
-                scanf("%d", &new_node->data);
-                new_node->next = NULL;
-
-                if (top == NULL) {
-                    start = new_node;
-                    top = new_node;
-                } else {
-                    top->next = new_node;
-                    top = new_node;
-                }
-                break;
-            }
-            case 2: {
-                if (top == NULL) {
-                    printf("Stack is empty. Cannot pop.\n");
-                    break;
-                }
-                if (top == start) {
-                    free(top);
-                    top = NULL;
-                    start = NULL;
-                } else {
-                    struct node* current = start;
-                    while (current->next != top) {
-                        current = current->next;
-                    }
-                    printf("%d is poped successfully\n",top->data);
-                    free(top);
-                    top = current;
-                    top->next = NULL;
-                }
-                break;
-            }
-            case 3: {
-                if (top == NULL) {
-                    printf("Stack is empty. Cannot peek.\n");
-                } else {
-                    printf("Top element of the stack: %d\n", top->data);
-                }
-                break;
-            }
-            case 4: {
-                struct node* display_current = start;
-                while (display_current != NULL) {
-                    printf("%d ", display_current->data);
-                    display_current = display_current->next;
-                }
-                printf("\n");
-                break;
-            }
+            exit(0);
+            case 1:
+            push();
+            break;
+            case 2:
+            pop();
+            break;
+            case 3:
+            display();
+            break;
             default:
-                printf("NOT FOUND..\n");
-                break;
+            printf("\nInvalid choice..\n");
+            break;
         }
     }
-
     return 0;
 }
