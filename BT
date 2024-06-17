@@ -1,87 +1,71 @@
-#include <stdio.h>
-#include <stdlib.h>
+#include<stdio.h>
+#include<stdlib.h>
+
 
 struct node
 {
     int data;
-    struct node* left;
-    struct node* right;
+    struct node*left,*right;
 };
-
-struct node* createnode(int data)
+struct node* create(int data)
 {
-    struct node* new_node = (struct node*)malloc(sizeof(struct node));
-    if (new_node)
-    {
-        new_node->data = data;
-        new_node->left = new_node->right = NULL;
-    }
-    return new_node;
+    struct node*newnode=(struct node*)malloc(sizeof(struct node));
+    newnode->data=data;
+    newnode->left=newnode->right=NULL;
+    return newnode;
 }
 
-struct node* insert(struct node* root, int data)
+struct node* insert(struct node*root,int data)
 {
-    if (root == NULL)
+    if (root==NULL)
     {
-        return createnode(data);
+        return create(data);
     }
-    else if (root->left == NULL)
+    if (data<root->data)
     {
-        root->left = insert(root->left, data);
-    }
-    else if (root->right == NULL)
-    {
-        root->right = insert(root->right, data);
+        root->left=insert(root->left,data);
     }
     else
     {
-        // Handle the case where both children are occupied
-        // You can choose to insert on either side (left or right)
-        // For simplicity, I'll insert on the left side
-        root->left = insert(root->left, data);
+        root->right=insert(root->right,data);
     }
     return root;
 }
 
-void inordertraversals(struct node* root)
+void inorder(struct node*root)
 {
-    if (root != NULL)
-    {
-        inordertraversals(root->left);
-        printf("%d ", root->data);
-        inordertraversals(root->right);
-    }
-}
+ if (root!=NULL)
+ {
+    inorder(root->left);
+    printf("%d ",root->data);
+    inorder(root->right);
 
+ }
+}
 int main()
 {
     struct node*root=NULL;
-    int data, ch;
-    while (1)
+    int ch,data;
+    while(1)
     {
-        printf("\n0.Exit\n");
-        printf("1.Insert\n2.Display\n");
-        printf("Choose an operation: ");
-        scanf("%d", &ch);
-        switch (ch)
+        printf("Choose your Option :0.Exit\n1.Insert\n2.Display\n");
+        scanf("%d",&ch);
+        switch(ch)
         {
             case 0:
-                exit(0);
+            exit(0);
             case 1:
-                printf("Enter the data to insert: ");
-                scanf("%d", &data);
-                root = insert(root, data);
-                break;
+            printf("Enter the data :");
+            scanf("%d",&data);
+            root=insert(root,data);
+            break;
             case 2:
-                printf("Inorder traversal: ");
-                inordertraversals(root);
-                printf("\n");
-                break;
+            inorder(root);
+            break;
             default:
-                printf("Invalid choice\n");
+            printf("\nInvalid Choice\n");
+            break;
         }
     }
-    // Clean up memory (optional)
-    // You can add more cleanup logic here
     return 0;
 }
