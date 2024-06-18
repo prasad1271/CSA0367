@@ -1,0 +1,93 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+#define MAX_VERTICES 100
+#define MAX_EDGES 1000
+
+typedef struct {
+    int u, v, weight;
+} Edge;
+
+typedef struct {
+    int parent;
+    int rank;
+} UnionFind;
+
+UnionFind unionFind[MAX_VERTICES];
+
+void makeSet(int v) {
+    unionFind[v].parent = v;
+    unionFind[v].rank = 0;
+}
+
+int findSet(int v) {
+    if (unionFind[v].parent!= v)
+        unionFind[v].parent = findSet(unionFind[v].parent);
+    return unionFind[v].parent;
+}
+
+void unionSets(int u, int v) {
+    int root1 = findSet(u);
+    int root2 = findSet(v);
+
+    if (root1!= root2) {
+        if (unionFind[root1].rank < unionFind[root2].rank)
+            unionFind[root1].parent = root2;
+        else if (unionFind[root1].rank > unionFind[root2].rank)
+            unionFind[root2].parent = root1;
+        else {
+            unionFind[root2].parent = root1;
+            unionFind[root1].rank++;
+        }
+    }
+}
+
+int compareEdges(const void* a, const void* b) {
+    Edge* edge1 = (Edge*)a;
+    Edge* edge2 = (Edge*)b;
+    return edge1->weight - edge2->weight;
+}
+
+void kruskalMST(Edge edges[], int numEdges, int numVertices) {
+    int i, j;
+    Edge mstEdges[MAX_EDGES];
+
+    for (i = 0; i < numVertices; i++)
+        makeSet(i);
+
+    qsort(edges, numEdges, sizeof(Edge), compareEdges);
+
+    j = 0;
+    for (i = 0; i < numEdges; i++) {
+        int u = edges[i].u;
+        int v = edges[i].v;
+
+        if (findSet(u)!= findSet(v)) {
+            mstEdges[j++] = edges[i];
+            unionSets(u, v);
+        }
+    }
+
+    printf("Minimum Spanning Tree Edges:\n");
+    for (i = 0; i < j; i++)
+        printf("%d -- %d == %d\n", mstEdges[i].u, mstEdges[i].v, mstEdges[i].weight);
+}
+
+int main() {
+    int numVertices, numEdges;
+    printf("Enter the number of vertices: ");
+    scanf("%d", &numVertices);
+    printf("Enter the number of edges: ");
+    scanf("%d", &numEdges);
+
+    Edge edges[MAX_EDGES];
+    int i;
+    for (i = 0; i < numEdges; i++) {
+        printf("Enter edge %d (u v weight): ", i+1);
+        scanf("%d %d %d", &edges[i].u, &edges[i].v, &edges[i].weight);
+    }
+
+    kruskalMST(edges, numEdges, numVertices);
+
+    return 0;
+}
