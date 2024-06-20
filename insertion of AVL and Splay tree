@@ -1,0 +1,69 @@
+//spaly insertion
+struct node*spaly(struct node*root,int key)
+{
+    if (root==NULL||root->key==key)
+    return root;
+    if (key<root->key)
+    {
+        if (root->left==NULL)
+        {
+            return root;
+        }
+        if (key<root->left->key)
+        {
+            root->left->left=spaly(root->left->left,key);
+            return rightrotate(root);
+        }
+        else if (key>root->left->key)
+        {
+            root->left->right=spaly(root->left->right,key);
+            if(root->left!=NULL)
+            root->left=leftrotate(root->left);
+        }
+        return (root->left==NULL)?root:rightrotate(root);
+    }
+    else
+    {
+        if (root->right==NULL)
+        {
+            return root;
+        }
+        if (key>root->right->key)
+        {
+            root->right->right=spaly(root->right->right,key);
+            root=leftrotate(root);
+        }
+        else if (key<root->right->key)
+        {
+            root->right->right=spaly(root->right->right,key);
+            if(root->right!=NULL)
+            root->right=rightrotate(root->right);
+        }
+        return (root->right==NULL)?root:leftrotate(root);
+    }
+}
+struct node*insert(struct node*root,int key)
+{
+    if (root==NULL)
+    {
+        return createnode(key);
+    }
+    if (key<root->key)
+    {
+        struct node*new=createnode(key);
+        new->right=root;
+        new->left=root->left;
+        root->left=NULL;
+        return new;
+    }
+    else if(key>root->key)
+    {
+        struct node*new=createnode(key);
+        new->left=root;
+        new->right=root->right;
+        root->right=NULL;
+        return new;
+    }
+    return root;
+}
+//AVL INSERTION
